@@ -9,7 +9,7 @@ export const Sidebar = () => {
         <li>
           <NavLink
             style={{ color: "white", textDecoration: "none" }}
-            to="/dashboard/products"
+            to="/products"
           >
             Products
           </NavLink>
@@ -17,7 +17,7 @@ export const Sidebar = () => {
         <li>
           <NavLink
             style={{ color: "white", textDecoration: "none" }}
-            to="/dashboard/posts"
+            to="/posts"
           >
             Posts
           </NavLink>
@@ -25,7 +25,7 @@ export const Sidebar = () => {
         <li>
           <NavLink
             style={{ color: "white", textDecoration: "none" }}
-            to="/dashboard/users"
+            to="/users"
           >
             Users
           </NavLink>
