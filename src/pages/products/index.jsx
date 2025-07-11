@@ -9,36 +9,66 @@ import {
 } from "./product.style";
 
 const Product = () => {
-  const [Products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [formData, setFormData] = useState({ name: "", price: "" });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newProduct = {
-      name: e.target.name.value,
-      price: e.target.price.value,
-    };
+    if (editingIndex !== null) {
+      const updated = [...products];
+      updated[editingIndex] = formData;
+      setProducts(updated);
+      setEditingIndex(null);
+    } else {
+      setProducts((prev) => [...prev, formData]);
+    }
 
-    setProducts((prev) => [...prev, newProduct]);
+    setFormData({ name: "", price: "" });
   };
 
-  console.log(Products);
+  const handleUpdate = (index) => {
+    setEditingIndex(index);
+    setFormData(products[index]);
+  };
 
   return (
     <Wrapper>
       <h1>Products</h1>
-      <h3>Number of products: {Products.length}</h3>
+      <h3>Number of products: {products.length}</h3>
       <Form onSubmit={handleSubmit}>
-        <Input type="text" name="name" placeholder="name..." />
-        <Input type="number" name="price" placeholder="price" />
-        <Button type="submit">Add</Button>
+        <Input
+          type="text"
+          name="name"
+          placeholder="name..."
+          value={formData.name}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, name: e.target.value }))
+          }
+        />
+        <Input
+          type="number"
+          name="price"
+          placeholder="price"
+          value={formData.price}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, price: e.target.value }))
+          }
+        />
+        <Button type="submit">
+          {editingIndex !== null ? "Update" : "Add"}
+        </Button>
       </Form>
       <ProductCards>
-        {Products.map((u) => (
-          <ProductCard key={Date.now()}>
+        {products.map((u, index) => (
+          <ProductCard key={index}>
             <h4>Product</h4>
             <p>Name: {u.name}</p>
             <p>Price: {u.price}</p>
+            <Button type="button" onClick={() => handleUpdate(index)}>
+              Update
+            </Button>
           </ProductCard>
         ))}
       </ProductCards>
